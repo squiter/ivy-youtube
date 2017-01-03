@@ -4,7 +4,7 @@
 
 ;; Author: Brunno dos Santos
 ;; Version: 1.0
-;; Package-Requires: ((request "0.2.0") (swiper "20161228.1838") (cl-lib "0.5"))
+;; Package-Requires: ((request "0.2.0") (ivy "0.8.0") (cl-lib "0.5"))
 ;; URL: https://github.com/squiter/ivy-youtube
 ;; Created: 2017-Jan-02
 ;; Keywords: youtube, multimedia
