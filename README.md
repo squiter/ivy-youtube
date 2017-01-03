@@ -2,7 +2,10 @@
 
 #Ivy-YouTube
 <p align="center">
-  <img src="https://github.com/squiter/ivy-youtube/blob/master/demo.gif">
+  <img src="https://github.com/squiter/ivy-youtube/blob/master/demo1.png">
+  <img src="https://github.com/squiter/ivy-youtube/blob/master/demo2.png">
+  <img src="https://github.com/squiter/ivy-youtube/blob/master/demo3.png">
+  <img src="https://github.com/squiter/ivy-youtube/blob/master/demo4.png">
 </p>
 
 Ivy-YouTube is a simple plugin to query YouTube via emacs and play videos in your browser. 
