@@ -107,13 +107,17 @@
 
 (defun ivy-youtube-play-on-process (video-url)
   "Start a process based on ivy-youtube-play-at variable passing VIDEO-URL."
-  (message "Starting a process...")
-  (start-process "Ivy Youtube Process" nil ivy-youtube-play-at video-url))
+  (message (format "Starting a process with: [%s %s]" ivy-youtube-play-at video-url))
+  (make-process :name "Ivy Youtube"
+                :buffer "*Ivy Youtube Output*"
+                :sentinel (lambda (process event)
+                            (message
+                             (format "Ivy Youtube: Process %s (Check buffer *Ivy Youtube Output*)" event)))
+                :command `(,ivy-youtube-play-at ,video-url)))
 
 (defun ivy-youtube-build-url (video-id)
   "Create a usable youtube URL with VIDEO-ID."
   (concat "http://www.youtube.com/watch?v=" video-id))
-
 
 (defun ivy-youtube-wrapper (*qqJson*)
   "Parse the json provided by *QQJSON* and provide search result targets."
