@@ -3,11 +3,11 @@
 ;; Copyright (C) 2017 Brunno dos Santos
 
 ;; Author: Brunno dos Santos
-;; Version: 1.0
+;; Version: 1.1
 ;; Package-Requires: ((request "0.2.0") (ivy "0.8.0") (cl-lib "0.5"))
 ;; URL: https://github.com/squiter/ivy-youtube
 ;; Created: 2017-Jan-02
-;; Keywords: youtube, multimedia
+;; Keywords: youtube, multimedia, mpv, vlc
 
 ;;; Commentary:
 
@@ -54,7 +54,13 @@
 
 (defcustom ivy-youtube-key nil
   "Your Google API key.";; INSERT YOUR KEY FROM GOOGLE ACCOUNT!!!
+  :type '(string)
   :group 'ivy-youtube)
+
+(defcustom ivy-youtube-play-at "browser"
+  "Where do you want to play the video.  You can set browser or process."
+  :type '(string)
+  :group 'ivy-youtube-play-at)
 
 ;;;###autoload
 (defun ivy-youtube()
@@ -84,10 +90,29 @@
       (if (eql x key) tree
 	(or (ivy-youtube-tree-assoc key x) (ivy-youtube-tree-assoc key y))))))
 
-(defun ivy-youtube-playvideo (video-id)
-  "Format the youtube URL via VIDEO-ID."
-  (browse-url
-   (concat "http://www.youtube.com/watch?v=" video-id)))
+(defun ivy-youtube-playvideo (video-url)
+  "Play the video based on users choice."
+  (cond ((equal ivy-youtube-play-at "browser")
+         (ivy-youtube-play-on-browser video-url))
+        ((equal ivy-youtube-play-at nil)
+         (ivy-youtube-play-on-browser video-url))
+        ((equal ivy-youtube-play-at "")
+         (ivy-youtube-play-on-browser video-url))
+        (t (ivy-youtube-play-on-process video-url))))
+
+(defun ivy-youtube-play-on-browser (video-url)
+  "Open your browser with VIDEO-URL."
+  (message "Opening your video on browser...")
+  (browse-url video-url))
+
+(defun ivy-youtube-play-on-process (video-url)
+  "Start a process based on ivy-youtube-play-at variable passing VIDEO-URL."
+  (message "Starting a process...")
+  (start-process "Ivy Youtube Process" nil ivy-youtube-play-at video-url))
+
+(defun ivy-youtube-build-url (video-id)
+  "Create a usable youtube URL with VIDEO-ID."
+  (concat "http://www.youtube.com/watch?v=" video-id))
 
 
 (defun ivy-youtube-wrapper (*qqJson*)
@@ -99,7 +124,7 @@
     (ivy-read "Youtube Search Results"
               *results*
               :action (lambda (cand)
-                        (ivy-youtube-playvideo (cdr cand))))))
+                        (ivy-youtube-playvideo (ivy-youtube-build-url (cdr cand)))))))
 
 (provide 'ivy-youtube)
 
