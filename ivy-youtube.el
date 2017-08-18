@@ -3,7 +3,7 @@
 ;; Copyright (C) 2017 Brunno dos Santos
 
 ;; Author: Brunno dos Santos
-;; Version: 1.1
+;; Version: 0.3.0
 ;; Package-Requires: ((request "0.2.0") (ivy "0.8.0") (cl-lib "0.5"))
 ;; URL: https://github.com/squiter/ivy-youtube
 ;; Created: 2017-Jan-02
@@ -62,6 +62,17 @@
   :type '(string)
   :group 'ivy-youtube-play-at)
 
+(defcustom ivy-youtube-history-file (format "%sivy-youtube-history" user-emacs-directory)
+  "History file for your searches."
+  :type '(string)
+  :group 'ivy-youtube)
+
+(defun ivy-youtube-history-list ()
+  "Return a list with content of file or an empty list."
+  (if (file-readable-p ivy-youtube-history-file)
+      (read-lines ivy-youtube-history-file)
+    '()))
+
 ;;;###autoload
 (defun ivy-youtube()
   (interactive)
@@ -70,7 +81,7 @@
   (request
    "https://www.googleapis.com/youtube/v3/search"
    :params `(("part" . "snippet")
-	     ("q" . ,(read-string "Search YouTube: "))
+	     ("q" . ,(ivy-youtube-search))
 	     ("type" . "video")
 	     ("maxResults" . "20")
 	     ("key" .  ,ivy-youtube-key));; <--- GOOGLE API KEY
@@ -129,6 +140,20 @@
               *results*
               :action (lambda (cand)
                         (ivy-youtube-playvideo (ivy-youtube-build-url (cdr cand)))))))
+
+(defun ivy-youtube-search ()
+  "Use ivy-read to select your search history."
+  (ivy-read "Search YouTube:"
+            (ivy-youtube-history-list)
+            :action (lambda (cand)
+                      (ivy-youtube-append-history cand))))
+
+(defun ivy-youtube-append-history (candidate)
+  "Save the new CANDIDATE to the history file."
+  (let* ((history-words (ivy-youtube-history-list))
+         (history-words-with-candidate (add-to-list 'history-words candidate))
+         (unique-words (delq nil (delete-dups history-words-with-candidate))))
+    (write-region (mapconcat 'identity unique-words "\n") nil ivy-youtube-history-file nil)))
 
 (provide 'ivy-youtube)
 
