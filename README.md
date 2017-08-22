@@ -28,6 +28,11 @@ The installation process is very simple:
 
     ![Screenshot](https://github.com/squiter/ivy-youtube/blob/master/api.png)
 
+    - To create this API key you need to go to `Credentials` ->
+      `Create Credentials` and select `API Key`
+    - After create you need to **enable** it: go to `Library`, select
+      `YouTube Data API` and click in `Enable` button on top.
+
 - **IMPORTANT:** Set 'ivy-youtube-key' variable
 
     ``` el

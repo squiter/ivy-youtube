@@ -3,7 +3,7 @@
 ;; Copyright (C) 2017 Brunno dos Santos
 
 ;; Author: Brunno dos Santos
-;; Version: 0.3.0
+;; Version: 0.3.1
 ;; Package-Requires: ((request "0.2.0") (ivy "0.8.0") (cl-lib "0.5"))
 ;; URL: https://github.com/squiter/ivy-youtube
 ;; Created: 2017-Jan-02
@@ -91,7 +91,9 @@
 	       (ivy-youtube-wrapper data)));;function
    :status-code '((400 . (lambda (&rest _) (message "Got 400.")))
 		  ;; (200 . (lambda (&rest _) (message "Got 200.")))
-		  (418 . (lambda (&rest _) (message "Got 418."))))
+		  (418 . (lambda (&rest _) (message "Got 418.")))
+                  (403 . (lambda (&rest _)
+                           (message "403: Unauthorized. Maybe you need to enable your youtube api key"))))
    :complete (message "searching...")))
 
 (defun ivy-youtube-tree-assoc (key tree)
