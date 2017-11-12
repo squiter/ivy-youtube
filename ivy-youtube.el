@@ -67,14 +67,20 @@
   :type '(string)
   :group 'ivy-youtube)
 
+(defun ivy-youtube-read-lines (filePath)
+  "Return a list of lines of a file at FILEPATH."
+  (with-temp-buffer
+    (insert-file-contents filePath)
+    (split-string (buffer-string) "\n" t)))
+
 (defun ivy-youtube-history-list ()
   "Return a list with content of file or an empty list."
   (if (file-readable-p ivy-youtube-history-file)
-      (read-lines ivy-youtube-history-file)
+      (ivy-youtube-read-lines ivy-youtube-history-file)
     '()))
 
 ;;;###autoload
-(defun ivy-youtube()
+(defun ivy-youtube ()
   (interactive)
   (unless ivy-youtube-key
     (error "You must set `ivy-youtube-key' to use this command"))
