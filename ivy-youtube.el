@@ -67,6 +67,13 @@
   :type '(string)
   :group 'ivy-youtube)
 
+(defcustom ivy-youtube-max-results 20
+  "The max amount of results displayed after search
+
+Increasing this value too much might result in getting connection errors"
+  :type '(integer)
+  :group 'ivy-youtube)
+
 (defun ivy-youtube-read-lines (filePath)
   "Return a list of lines of a file at FILEPATH."
   (with-temp-buffer
@@ -89,7 +96,7 @@
    :params `(("part" . "snippet")
 	     ("q" . ,(ivy-youtube-search))
 	     ("type" . "video")
-	     ("maxResults" . "20")
+	     ("maxResults" . ,(int-to-string ivy-youtube-max-results))
 	     ("key" .  ,ivy-youtube-key));; <--- GOOGLE API KEY
    :parser 'json-read
    :success (cl-function
