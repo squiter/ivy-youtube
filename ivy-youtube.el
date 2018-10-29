@@ -63,7 +63,9 @@
   :group 'ivy-youtube-play-at)
 
 (defcustom ivy-youtube-history-file (format "%sivy-youtube-history" user-emacs-directory)
-  "History file for your searches."
+  "History file for your searches.
+
+If nil then don't keep a search history"
   :type '(string)
   :group 'ivy-youtube)
 
@@ -75,7 +77,7 @@
 
 (defun ivy-youtube-history-list ()
   "Return a list with content of file or an empty list."
-  (if (file-readable-p ivy-youtube-history-file)
+  (if (and ivy-youtube-history-file (file-readable-p ivy-youtube-history-file))
       (ivy-youtube-read-lines ivy-youtube-history-file)
     '()))
 
@@ -158,10 +160,11 @@
 
 (defun ivy-youtube-append-history (candidate)
   "Save the new CANDIDATE to the history file."
-  (let* ((history-words (ivy-youtube-history-list))
-         (history-words-with-candidate (add-to-list 'history-words candidate))
-         (unique-words (delq nil (delete-dups history-words-with-candidate))))
-    (write-region (mapconcat 'identity unique-words "\n") nil ivy-youtube-history-file nil)))
+  (if ivy-youtube-history-file
+      (let* ((history-words (ivy-youtube-history-list))
+	     (history-words-with-candidate (add-to-list 'history-words candidate))
+	     (unique-words (delq nil (delete-dups history-words-with-candidate))))
+	(write-region (mapconcat 'identity unique-words "\n") nil ivy-youtube-history-file nil))))
 
 (provide 'ivy-youtube)
 
