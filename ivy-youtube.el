@@ -145,8 +145,9 @@ If nil then don't keep a search history"
   (let (results '())
     (let ((search-results (cdr (ivy-youtube-tree-assoc 'items *qqJson*))))
       (dotimes (i (length search-results))
-	(add-to-list 'results (cons (cdr (ivy-youtube-tree-assoc 'title (aref search-results i)))
-				    (cdr (ivy-youtube-tree-assoc 'videoId (aref search-results i)))))))
+	(push  (cons (cdr (ivy-youtube-tree-assoc 'title (aref search-results i)))
+		     (cdr (ivy-youtube-tree-assoc 'videoId (aref search-results i))))
+	       results)))
     (ivy-read "Youtube Search Results"
               (reverse results)
               :action (lambda (cand)
