@@ -67,7 +67,7 @@
   :type '(string)
   :group 'ivy-youtube)
 
-(defcustom ivy-youtube-max-results 20
+(defcustom ivy-youtube-max-results 50
   "The max amount of results displayed after search
 
 Increasing this value too much might result in getting connection errors"
