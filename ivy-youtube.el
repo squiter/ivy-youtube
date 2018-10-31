@@ -149,12 +149,14 @@ Increasing this value too much might result in getting connection errors"
 
 (defun ivy-youtube-wrapper (*qqJson*)
   "Parse the json provided by *QQJSON* and provide search result targets."
-  (let (*results* '())
-    (cl-loop for x being the elements of (ivy-youtube-tree-assoc 'items *qqJson*)
-             do (push (cons (cdr (ivy-youtube-tree-assoc 'title x))
-                            (cdr (ivy-youtube-tree-assoc 'videoId x))) *results*))
+  (let (results '())
+    (let ((search-results (cdr (ivy-youtube-tree-assoc 'items *qqJson*))))
+      (dotimes (i (length search-results))
+	(push  (cons (cdr (ivy-youtube-tree-assoc 'title (aref search-results i)))
+		     (cdr (ivy-youtube-tree-assoc 'videoId (aref search-results i))))
+	       results)))
     (ivy-read "Youtube Search Results"
-              *results*
+              (reverse results)
               :action (lambda (cand)
                         (ivy-youtube-playvideo (ivy-youtube-build-url (cdr cand)))))))
 
