@@ -162,7 +162,7 @@ Increasing this value too much might result in getting connection errors"
 
 (defun ivy-youtube-search ()
   "Use ivy-read to select your search history."
-  (ivy-read "Search YouTube:"
+  (ivy-read "Search YouTube: "
             (ivy-youtube-history-list)
             :action (lambda (cand)
                       (ivy-youtube-append-history cand))))
