@@ -10,7 +10,7 @@
 
 Ivy-YouTube is a simple plugin to query YouTube via emacs and play videos in your browser.
 
-**IMPORTANT:** Remeber to set your 'ivy-youtube-key' variable!
+**IMPORTANT:** Remember to set your 'ivy-youtube-key' variable!
 
 ## Based on Helm-Youtube
 
@@ -44,7 +44,7 @@ The installation process is very simple:
 
 By default Ivy Youtube play the selected video in your default browser, but you can configure that:
 
-### Change the default brownser:
+### Change the default browser:
 
 Set browse-url-generic and add to .emacs
 
