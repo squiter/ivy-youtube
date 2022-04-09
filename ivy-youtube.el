@@ -109,7 +109,9 @@ Increasing this value too much might result in getting connection errors"
 		  (418 . (lambda (&rest _) (message "Got 418.")))
                   (403 . (lambda (&rest _)
                            (message "403: Unauthorized. Maybe you need to enable your youtube api key"))))
-   :complete (message "searching...")))
+   :complete (cl-function
+              (lambda (&rest args)
+                (message "Search finished")))))
 
 (defun ivy-youtube-tree-assoc (key tree)
   "Build the tree-assoc from KEY TREE for youtube query."
