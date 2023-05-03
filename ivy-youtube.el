@@ -58,7 +58,7 @@
   :group 'ivy-youtube)
 
 (defcustom ivy-youtube-play-at "browser"
-  "Where do you want to play the video.  You can set browser or process."
+  "Where do you want to play the video.  You can set browser, emms, or process."
   :type '(string)
   :group 'ivy-youtube-play-at)
 
@@ -128,12 +128,19 @@ Increasing this value too much might result in getting connection errors"
          (ivy-youtube-play-on-browser video-url))
         ((equal ivy-youtube-play-at "")
          (ivy-youtube-play-on-browser video-url))
+        ((equal ivy-youtube-play-at "emms")
+         (ivy-youtube-play-on-emms video-url))
         (t (ivy-youtube-play-on-process video-url))))
 
 (defun ivy-youtube-play-on-browser (video-url)
   "Open your browser with VIDEO-URL."
   (message "Opening your video on browser...")
   (browse-url video-url))
+
+(defun ivy-youtube-play-on-emms (video-url)
+  "Play VIDEO-URL using emms."
+  (message "Opening URL using emms...")
+  (emms-play-url video-url))
 
 (defun ivy-youtube-play-on-process (video-url)
   "Start a process based on ivy-youtube-play-at variable passing VIDEO-URL."
